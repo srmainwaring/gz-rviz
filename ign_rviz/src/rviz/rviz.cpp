@@ -116,10 +116,10 @@ void RViz::refreshTopicList() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void RViz::addGrid3D() const
-{
-  ignition::gui::App()->LoadPlugin("Grid3D");
-}
+// void RViz::addGrid3D() const
+// {
+//   ignition::gui::App()->LoadPlugin("Grid3D");
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 void RViz::addTFDisplay() const

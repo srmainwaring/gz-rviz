@@ -1,15 +1,27 @@
 cmake_minimum_required(VERSION 3.5)
 project(ign_rviz_plugins)
 
+#============================================================================
+# Find ignition-cmake
+#============================================================================
+find_package(ignition-cmake2 2.8.0 REQUIRED)
+
+#============================================================================
+# Configure the project
+#============================================================================
+ign_configure_project()
+
+#============================================================================
+
 set(CMAKE_AUTOMOC ON)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+# if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#   add_compile_options(-Wall -Wextra -Wpedantic)
+# endif()
 
 # ROS2 packages
 find_package(ament_cmake REQUIRED)
@@ -23,8 +35,8 @@ find_package(tf2_ros REQUIRED)
 find_package(urdf REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
-# Ignition libraries
-find_package(ignition-math6 REQUIRED)
+#--------------------------------------
+# Ignition packages
 
 # Dome
 if("$ENV{IGNITION_VERSION}" STREQUAL "dome")
@@ -37,9 +49,12 @@ if("$ENV{IGNITION_VERSION}" STREQUAL "dome")
   find_package(ignition-rendering4 REQUIRED)
   set(IGN_RENDERING_VER ${ignition-rendering4_VERSION_MAJOR})
 
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
   message(STATUS "Compiling against Ignition Dome")
-# Default to Edifice
-else()
+# Edifice
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
   find_package(ignition-gui5 REQUIRED)
   set(IGN_GUI_VER ${ignition-gui5_VERSION_MAJOR})
 
@@ -49,9 +64,47 @@ else()
   find_package(ignition-rendering5 REQUIRED)
   set(IGN_RENDERING_VER ${ignition-rendering5_VERSION_MAJOR})
 
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
   message(STATUS "Compiling against Ignition Edifice")
+# Fortress
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
+  find_package(ignition-gui6 REQUIRED)
+  set(IGN_GUI_VER ${ignition-gui6_VERSION_MAJOR})
+
+  find_package(ignition-common5 REQUIRED)
+  set(IGN_COMMON_VER ${ignition-common5_VERSION_MAJOR})
+
+  find_package(ignition-rendering6 REQUIRED)
+  set(IGN_RENDERING_VER ${ignition-rendering6_VERSION_MAJOR})
+
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Ignition Fortress")
+# Default to Garden
+else()
+  find_package(ignition-gui7 REQUIRED)
+  set(IGN_GUI_VER ${ignition-gui7_VERSION_MAJOR})
+
+  find_package(ignition-common5 REQUIRED)
+  set(IGN_COMMON_VER ${ignition-common5_VERSION_MAJOR})
+
+  find_package(ignition-rendering7 REQUIRED)
+  set(IGN_RENDERING_VER ${ignition-rendering7_VERSION_MAJOR})
+
+  find_package(ignition-math7 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math7_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Ignition Garden")
 endif()
 
+#--------------------------------------
+# Find Tinyxml2
+ign_find_package(TINYXML2 REQUIRED PRIVATE PRETTY tinyxml2)
+
+#--------------------------------------
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 find_package(ign_rviz_common REQUIRED)
@@ -88,6 +141,7 @@ macro(add_ign_rviz_plugin)
   target_link_libraries(
     ${IGN_RVIZ_PLUGIN_NAME}
     Qt5::Core Qt5::Qml Qt5::Quick Qt5::QuickControls2
+    TINYXML2::TINYXML2
   )
 
   target_include_directories(${IGN_RVIZ_PLUGIN_NAME}
@@ -105,7 +159,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -116,7 +170,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -127,7 +181,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     sensor_msgs
     tf2_ros
 )
@@ -138,7 +192,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     sensor_msgs
     tf2_ros
@@ -151,7 +205,7 @@ add_ign_rviz_plugin(
     tf2_ros
     sensor_msgs
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     ign_rviz_common
 )
@@ -165,7 +219,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
     visualization_msgs
@@ -180,7 +234,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
     visualization_msgs
@@ -193,7 +247,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     nav_msgs
     tf2_ros
@@ -206,7 +260,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -218,7 +272,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -230,7 +284,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -242,7 +296,7 @@ add_ign_rviz_plugin(
     geometry_msgs
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     tf2_ros
 )
@@ -253,7 +307,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     ign_rviz_common
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     std_msgs
     tf2_ros
@@ -266,7 +320,7 @@ add_ign_rviz_plugin(
   DEPENDENCIES
     tf2_ros
     ignition-gui${IGN_GUI_VER}
-    ignition-math6
+    ignition-math${IGN_MATH_VER}
     ignition-rendering${IGN_RENDERING_VER}
     ign_rviz_common
 )

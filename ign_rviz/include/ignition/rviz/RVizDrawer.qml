@@ -31,9 +31,9 @@ Rectangle {
       case "addAxesDisplay":
         RViz.addAxesDisplay();
         break;
-      case "addGrid3D":
-        RViz.addGrid3D();
-        break;
+      // case "addGrid3D":
+      //   RViz.addGrid3D();
+      //   break;
       case "addGPSDisplay":
         RViz.addGPSDisplay();
         break;
@@ -91,11 +91,11 @@ Rectangle {
       actionElement: "addAxesDisplay"
     }
 
-    ListElement {
-      title: "Grid"
-      icon: "icons/Grid.png"
-      actionElement: "addGrid3D"
-    }
+    // ListElement {
+    //   title: "Grid"
+    //   icon: "icons/Grid.png"
+    //   actionElement: "addGrid3D"
+    // }
 
     ListElement {
       title: "GPS"

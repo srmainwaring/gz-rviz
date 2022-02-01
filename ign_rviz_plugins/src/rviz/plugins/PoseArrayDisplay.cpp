@@ -36,8 +36,15 @@ PoseArrayDisplay::PoseArrayDisplay()
 : MessageDisplay(), dirty(false), visualShape(true), shaftLength(0.23), shaftRadius(0.01),
   headLength(0.07), headRadius(0.03), axisLength(0.3), axisRadius(0.03), axisHeadVisible(false)
 {
+  std::map<std::string, std::string> params;
+  params["metal"] = 1;
+  this->engine = rendering::engine("ogre2", params);
+  if (!this->engine) {
+    igndbg << "Engine '" << "ogre2" << "' is not supported" << std::endl;
+    return;
+  }
+
   // Get reference to scene
-  this->engine = ignition::rendering::engine("ogre");
   this->scene = this->engine->SceneByName("scene");
 
   this->rootVisual = this->scene->CreateVisual();

@@ -106,7 +106,7 @@ void FrameManager::tf_callback(const tf2_msgs::msg::TFMessage::SharedPtr _msg)
     std::chrono::seconds(timeStamp.sec) +
     std::chrono::nanoseconds(timeStamp.nanosec));
 
-  for (const auto frame : frame_ids) {
+  for (const auto& frame : frame_ids) {
     try {
       /*
        * TODO(Sarathkrishnan Ramesh): Reducing the tiemout for lookupTransform affects

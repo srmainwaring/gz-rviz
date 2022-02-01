@@ -48,7 +48,7 @@ git clone https://github.com/ignitionrobotics/ign-rviz.git
 export IGNITION_VERSION=<ignition>
 ```
 
-Where `<ignition>` can be `dome` or `edifice`. Defaults to Edifice if not set.
+Where `<ignition>` can be `dome`, `edifice`, `fortress` or `garden`. Defaults to Garden if not set.
 
 > You only need to set this variable when compiling, not when running.
 

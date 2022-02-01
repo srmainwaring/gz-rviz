@@ -21,9 +21,15 @@
   <depend>tf2_ros</depend>
   <depend>visualization_msgs</depend>
 
-  <!-- Edifice (default) -->
-  <depend condition="$IGNITION_VERSION != 'dome'">ignition-common4</depend>
-  <depend condition="$IGNITION_VERSION != 'dome'">ignition-gui5</depend>
+  <!-- Garden (default) -->
+  <depend condition="$IGNITION_VERSION != 'fortress'">ignition-common5</depend>
+  <depend condition="$IGNITION_VERSION != 'fortress'">ignition-gui7</depend>
+  <!-- Fortress -->
+  <depend condition="$IGNITION_VERSION == 'fortress'">ignition-common4</depend>
+  <depend condition="$IGNITION_VERSION == 'fortress'">ignition-gui6</depend>
+  <!-- Edifice -->
+  <depend condition="$IGNITION_VERSION == 'edifice'">ignition-common4</depend>
+  <depend condition="$IGNITION_VERSION == 'edifice'">ignition-gui5</depend>
   <!-- Dome -->
   <depend condition="$IGNITION_VERSION == dome">ignition-common3</depend>
   <depend condition="$IGNITION_VERSION == dome">ignition-gui4</depend>

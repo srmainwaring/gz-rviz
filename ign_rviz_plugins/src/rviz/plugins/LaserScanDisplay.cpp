@@ -34,8 +34,15 @@ namespace plugins
 LaserScanDisplay::LaserScanDisplay()
 : MessageDisplay(), visualType(rendering::LidarVisualType::LVT_POINTS)
 {
+  std::map<std::string, std::string> params;
+  params["metal"] = 1;
+  this->engine = rendering::engine("ogre2", params);
+  if (!this->engine) {
+    igndbg << "Engine '" << "ogre2" << "' is not supported" << std::endl;
+    return;
+  }
+
   // Get reference to scene
-  this->engine = ignition::rendering::engine("ogre");
   this->scene = this->engine->SceneByName("scene");
 
   // Create root visual for laser scan

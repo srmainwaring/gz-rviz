@@ -1,13 +1,25 @@
 cmake_minimum_required(VERSION 3.5)
 project(ign_rviz)
 
+#============================================================================
+# Find ignition-cmake
+#============================================================================
+find_package(ignition-cmake2 2.8.0 REQUIRED)
+
+#============================================================================
+# Configure the project
+#============================================================================
+ign_configure_project()
+
+#============================================================================
+
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+# if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#   add_compile_options(-Wall -Wextra -Wpedantic)
+# endif()
 
 set(CMAKE_AUTOMOC ON)
 
@@ -34,7 +46,6 @@ find_package(visualization_msgs REQUIRED)
 # Ignition libraries
 find_package(ign_rviz_common REQUIRED)
 find_package(ign_rviz_plugins REQUIRED)
-find_package(ignition-math6 REQUIRED)
 
 # Dome
 if("$ENV{IGNITION_VERSION}" STREQUAL "dome")
@@ -44,16 +55,46 @@ if("$ENV{IGNITION_VERSION}" STREQUAL "dome")
   find_package(ignition-common3 REQUIRED)
   set(IGN_COMMON_VER ${ignition-common3_VERSION_MAJOR})
 
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
   message(STATUS "Compiling against Ignition Dome")
-# Default to Edifice
-else()
+# Edifice
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
   find_package(ignition-gui5 REQUIRED)
   set(IGN_GUI_VER ${ignition-gui5_VERSION_MAJOR})
 
   find_package(ignition-common4 REQUIRED)
   set(IGN_COMMON_VER ${ignition-common4_VERSION_MAJOR})
 
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
   message(STATUS "Compiling against Ignition Edifice")
+# Fortress
+elseif("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
+  find_package(ignition-gui6 REQUIRED)
+  set(IGN_GUI_VER ${ignition-gui6_VERSION_MAJOR})
+
+  find_package(ignition-common4 REQUIRED)
+  set(IGN_COMMON_VER ${ignition-common4_VERSION_MAJOR})
+
+  find_package(ignition-math6 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Ignition Fortress")
+# Default to Garden
+else()
+  find_package(ignition-gui7 REQUIRED)
+  set(IGN_GUI_VER ${ignition-gui7_VERSION_MAJOR})
+
+  find_package(ignition-common5 REQUIRED)
+  set(IGN_COMMON_VER ${ignition-common5_VERSION_MAJOR})
+
+  find_package(ignition-math7 REQUIRED)
+  set(IGN_MATH_VER ${ignition-math7_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Ignition Garden")
 endif()
 
 qt5_add_resources(resources_RCC include/ignition/rviz/rviz.qrc)
@@ -86,7 +127,7 @@ ament_target_dependencies(ign_rviz
   ament_index_cpp
   ign_rviz_common
   ign_rviz_plugins
-  ignition-math6
+  ignition-math${IGN_MATH_VER}
   ignition-gui${IGN_GUI_VER}
   geometry_msgs
   nav_msgs

@@ -41,12 +41,12 @@ int main(int argc, char ** argv)
 
   ignition::rviz::RViz rviz;
 
-  rviz.init_ros();
-  rclcpp::executors::MultiThreadedExecutor executor;
-  executor.add_node(rviz.get_node());
-  std::thread executor_thread(std::bind(
-      &rclcpp::executors::MultiThreadedExecutor::spin,
-      &executor));
+  // rviz.init_ros();
+  // rclcpp::executors::MultiThreadedExecutor executor;
+  // executor.add_node(rviz.get_node());
+  // std::thread executor_thread(std::bind(
+  //     &rclcpp::executors::MultiThreadedExecutor::spin,
+  //     &executor));
 
   auto context = new QQmlContext(app.Engine()->rootContext());
   context->setContextProperty("RViz", &rviz);
@@ -70,8 +70,8 @@ int main(int argc, char ** argv)
 
   app.exec();
 
-  executor.cancel();
-  executor_thread.join();
+  // executor.cancel();
+  // executor_thread.join();
 
   return 0;
 }
