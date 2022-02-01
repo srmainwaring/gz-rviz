@@ -103,7 +103,7 @@ public:
    * @brief Qt eventFilters. Original documentation can be found
    * <a href="https://doc.qt.io/qt-5/qobject.html#eventFilter">here</a>
    */
-  bool eventFilter(QObject * _object, QEvent * _event);
+  bool eventFilter(QObject * _object, QEvent * _event) override;
 
   // Documentation inherited
   void setFrameManager(std::shared_ptr<common::FrameManager> _frameManager) override;
@@ -137,7 +137,7 @@ protected:
   /**
    * @brief Update laser scan visualization
    */
-  void update();
+  void update() override;
 
 private:
   gz::rendering::RenderEngine * engine;

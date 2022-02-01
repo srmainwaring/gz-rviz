@@ -56,7 +56,7 @@ int main(int argc, char ** argv)
   QQmlComponent component(app.Engine(), ":/RViz/RVizDrawer.qml");
   auto item = qobject_cast<QQuickItem *>(component.create(context));
   if (!item) {
-    ignerr << "Failed to initialize" << std::endl;
+    gzerr << "Failed to initialize" << std::endl;
     return 1;
   }
 
@@ -72,8 +72,8 @@ int main(int argc, char ** argv)
 
   app.exec();
 
-  executor.cancel();
-  executor_thread.join();
+  // executor.cancel();
+  // executor_thread.join();
 
   return 0;
 }

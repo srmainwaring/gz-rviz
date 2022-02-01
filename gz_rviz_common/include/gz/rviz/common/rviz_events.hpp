@@ -27,7 +27,7 @@ namespace rviz
 namespace events
 {
 /**
- * Ignition RViz starting event id (50000) and counting up
+ * Gazebo RViz starting event id (50000) and counting up
  * to avoid collision with gz-gui and gz-sim events.
  */
 static const unsigned int startingEventId = 50000;

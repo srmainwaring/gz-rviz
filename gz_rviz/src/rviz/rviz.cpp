@@ -14,9 +14,21 @@
 
 #include "gz/rviz/rviz.hpp"
 
-#include <memory>
-#include <string>
-#include <vector>
+#include <gz/rviz/plugins/AxesDisplay.hpp>
+#include <gz/rviz/plugins/GlobalOptions.hpp>
+#include <gz/rviz/plugins/GPSDisplay.hpp>
+#include <gz/rviz/plugins/ImageDisplay.hpp>
+#include <gz/rviz/plugins/LaserScanDisplay.hpp>
+#include <gz/rviz/plugins/MarkerArrayDisplay.hpp>
+#include <gz/rviz/plugins/MarkerDisplay.hpp>
+#include <gz/rviz/plugins/MarkerManager.hpp>
+#include <gz/rviz/plugins/PathDisplay.hpp>
+#include <gz/rviz/plugins/PointStampedDisplay.hpp>
+#include <gz/rviz/plugins/PolygonDisplay.hpp>
+#include <gz/rviz/plugins/PoseArrayDisplay.hpp>
+#include <gz/rviz/plugins/PoseDisplay.hpp>
+#include <gz/rviz/plugins/RobotModelDisplay.hpp>
+#include <gz/rviz/plugins/TFDisplay.hpp>
 
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/polygon_stamped.hpp>
@@ -30,6 +42,10 @@
 #include <tf2_msgs/msg/tf_message.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace gz
 {
@@ -116,10 +132,10 @@ void RViz::refreshTopicList() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void RViz::addGrid3D() const
-{
-  gz::gui::App()->LoadPlugin("Grid3D");
-}
+// void RViz::addGrid3D() const
+// {
+//   gz::gui::App()->LoadPlugin("Grid3D");
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 void RViz::addTFDisplay() const
@@ -127,14 +143,16 @@ void RViz::addTFDisplay() const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("TFDisplay")) {
     auto tfDisplayPlugins =
-      gz::gui::App()->findChildren<DisplayPlugin<tf2_msgs::msg::TFMessage> *>();
-    int tfDisplayCount = tfDisplayPlugins.size() - 1;
+      gz::gui::App()->findChildren<gz::rviz::plugins::TFDisplay *>();
+    int pluginCount = tfDisplayPlugins.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
-    tfDisplayPlugins[tfDisplayCount]->initialize(this->node);
-    tfDisplayPlugins[tfDisplayCount]->setFrameManager(this->frameManager);
+    tfDisplayPlugins[pluginCount]->initialize(this->node);
+    tfDisplayPlugins[pluginCount]->setFrameManager(this->frameManager);
     gz::gui::App()->findChild<gz::gui::MainWindow *>()->installEventFilter(
-      tfDisplayPlugins[tfDisplayCount]);
+      tfDisplayPlugins[pluginCount]);
   }
 }
 
@@ -144,8 +162,10 @@ void RViz::addLaserScanDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("LaserScanDisplay")) {
     auto laserScanPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::LaserScan> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::LaserScanDisplay *>();
     int pluginCount = laserScanPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     laserScanPlugin[pluginCount]->initialize(this->node);
@@ -161,8 +181,10 @@ void RViz::addGPSDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("GPSDisplay")) {
     auto gpsDisplay =
-      gz::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::NavSatFix> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::GPSDisplay *>();
     int pluginCount = gpsDisplay.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     gpsDisplay[pluginCount]->initialize(this->node);
@@ -176,8 +198,10 @@ void RViz::addMarkerDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("MarkerDisplay")) {
     auto markerDisplay =
-      gz::gui::App()->findChildren<DisplayPlugin<visualization_msgs::msg::Marker> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::MarkerDisplay *>();
     int pluginCount = markerDisplay.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     markerDisplay[pluginCount]->initialize(this->node);
@@ -194,8 +218,10 @@ void RViz::addMarkerArrayDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("MarkerArrayDisplay")) {
     auto markerArrayDisplay =
-      gz::gui::App()->findChildren<DisplayPlugin<visualization_msgs::msg::MarkerArray> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::MarkerArrayDisplay *>();
     int pluginCount = markerArrayDisplay.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     markerArrayDisplay[pluginCount]->initialize(this->node);
@@ -212,8 +238,10 @@ void RViz::addPointStampedDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("PointStampedDisplay")) {
     auto pointStampedPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PointStamped> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::PointStampedDisplay *>();
     int pluginCount = pointStampedPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     pointStampedPlugin[pluginCount]->initialize(this->node);
@@ -230,8 +258,10 @@ void RViz::addPolygonDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("PolygonDisplay")) {
     auto polygonPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PolygonStamped> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::PolygonDisplay *>();
     int pluginCount = polygonPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     polygonPlugin[pluginCount]->initialize(this->node);
@@ -248,8 +278,10 @@ void RViz::addPoseDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("PoseDisplay")) {
     auto posePlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PoseStamped> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::PoseDisplay *>();
     int pluginCount = posePlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     posePlugin[pluginCount]->initialize(this->node);
@@ -266,8 +298,10 @@ void RViz::addPoseArrayDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("PoseArrayDisplay")) {
     auto poseArrayPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PoseArray> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::PoseArrayDisplay *>();
     int pluginCount = poseArrayPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     poseArrayPlugin[pluginCount]->initialize(this->node);
@@ -284,8 +318,10 @@ void RViz::addPathDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("PathDisplay")) {
     auto pathPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<nav_msgs::msg::Path> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::PathDisplay *>();
     int pluginCount = pathPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     pathPlugin[pluginCount]->initialize(this->node);
@@ -304,6 +340,8 @@ void RViz::addRobotModelDisplay() const
     auto robotModelPlugin =
       gz::gui::App()->findChildren<DisplayPlugin<std_msgs::msg::String> *>();
     int pluginCount = robotModelPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     robotModelPlugin[pluginCount]->initialize(this->node);
@@ -320,8 +358,10 @@ void RViz::addImageDisplay(const QString & _topic) const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("ImageDisplay")) {
     auto imageDisplayPlugin =
-      gz::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::Image> *>();
+      gz::gui::App()->findChildren<gz::rviz::plugins::ImageDisplay *>();
     int pluginCount = imageDisplayPlugin.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
     imageDisplayPlugin[pluginCount]->initialize(this->node);
@@ -335,13 +375,15 @@ void RViz::addAxesDisplay() const
   // Load plugin
   if (gz::gui::App()->LoadPlugin("AxesDisplay")) {
     auto axes_plugins =
-      gz::gui::App()->findChildren<gz::rviz::plugins::MessageDisplayBase *>();
-    int axes_plugin_count = axes_plugins.size() - 1;
+      gz::gui::App()->findChildren<gz::rviz::plugins::AxesDisplay *>();
+    int pluginCount = axes_plugins.size() - 1;
+    if (pluginCount < 0)
+      return;
 
     // Set frame manager and install event filter for recently added plugin
-    axes_plugins[axes_plugin_count]->setFrameManager(this->frameManager);
+    axes_plugins[pluginCount]->setFrameManager(this->frameManager);
     gz::gui::App()->findChild<gz::gui::MainWindow *>()->installEventFilter(
-      axes_plugins[axes_plugin_count]);
+      axes_plugins[pluginCount]);
   }
 }
 
@@ -351,18 +393,28 @@ void RViz::init_ros()
   this->node = std::make_shared<rclcpp::Node>("gz_rviz");
   this->frameManager = std::make_shared<common::FrameManager>(this->node);
   this->frameManager->setFixedFrame("world");
+  return;
 
   // Load Global Options plugin
   if (gz::gui::App()->LoadPlugin("GlobalOptions")) {
     auto globalOptionsPlugin =
-      gz::gui::App()->findChild<gz::rviz::plugins::MessageDisplayBase *>();
+      gz::gui::App()->
+          findChild<gz::rviz::plugins::GlobalOptions *>();
 
-    // Set frame manager and install
-    globalOptionsPlugin->setFrameManager(this->frameManager);
+    if (globalOptionsPlugin)
+    {
+      // Set frame manager and install
+      globalOptionsPlugin->setFrameManager(this->frameManager);
 
-    // Install event filter
-    gz::gui::App()->findChild<gz::gui::MainWindow *>()->installEventFilter(
-      globalOptionsPlugin);
+      // Install event filter
+      auto mainWindow =
+          gz::gui::App()->
+              findChild<gz::gui::MainWindow *>();
+      if (mainWindow)
+      {
+        mainWindow->installEventFilter(globalOptionsPlugin);
+      }
+    }
   }
 }
 

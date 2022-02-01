@@ -35,11 +35,11 @@ namespace plugins
 AxesDisplay::AxesDisplay()
 : length(1.0), radius(0.1), headVisible(false), dirty(false)
 {
-  // TODO(Sarathkrishnan Ramesh)
-  // Add support to select render engine using config file
-  this->engine = rendering::engine("ogre");
+  std::map<std::string, std::string> params;
+  params["metal"] = 1;
+  this->engine = rendering::engine("ogre2", params);
   if (!this->engine) {
-    igndbg << "Engine '" << "ogre" << "' is not supported" << std::endl;
+    gzdbg << "Engine '" << "ogre2" << "' is not supported" << std::endl;
     return;
   }
 
@@ -170,7 +170,7 @@ void AxesDisplay::onRefresh()
 
   this->frameList.push_back(QString::fromStdString("<Fixed Frame>"));
 
-  for (const auto frame : allFrames) {
+  for (const auto& frame : allFrames) {
     this->frameList.push_back(QString::fromStdString(frame));
   }
 

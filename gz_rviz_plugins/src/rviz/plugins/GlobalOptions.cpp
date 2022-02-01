@@ -85,13 +85,14 @@ QString TFStatus::getColor() const
 GlobalOptions::GlobalOptions()
 : dirty(false), initialized(false), populated(false), color("#303030")
 {
-  // TODO(Sarathkrishnan Ramesh)
-  // Add support to select render engine using config file
-  this->engine = rendering::engine("ogre");
+  std::map<std::string, std::string> params;
+  params["metal"] = 1;
+  this->engine = rendering::engine("ogre2", params);
   if (!this->engine) {
-    igndbg << "Engine '" << "ogre" << "' is not supported" << std::endl;
+    gzdbg << "Engine '" << "ogre2" << "' is not supported" << std::endl;
     return;
   }
+
   this->tfStatus = new TFStatus();
   this->frameList.push_back("world");
 }

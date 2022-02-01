@@ -88,8 +88,15 @@ RobotModelDisplay::RobotModelDisplay()
 : MessageDisplay(), modelLoaded(true), destroyModel(false), showVisual(true), showCollision(false),
   dirty(false), alpha(1.0)
 {
+  std::map<std::string, std::string> params;
+  params["metal"] = 1;
+  this->engine = rendering::engine("ogre2", params);
+  if (!this->engine) {
+    gzdbg << "Engine '" << "ogre2" << "' is not supported" << std::endl;
+    return;
+  }
+
   // Get reference to scene
-  this->engine = gz::rendering::engine("ogre");
   this->scene = this->engine->SceneByName("scene");
 
   // Create red material if not registered

@@ -58,6 +58,7 @@ include_directories(SYSTEM
   ${GZ-COMMON_INCLUDE_DIRS}
   ${GZ-GUI_INCLUDE_DIRS}
   ${GZ-MATH_INCLUDE_DIRS}
+  ${GZ-RENDERING_INCLUDE_DIRS}
 )
 
 qt5_add_resources(resources_RCC res/Plugins.qrc)

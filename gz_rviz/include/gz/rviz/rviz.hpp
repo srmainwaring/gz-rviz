@@ -110,7 +110,7 @@ public:
   /**
    * @brief Add Grid visual to Scene3D
    */
-  Q_INVOKABLE void addGrid3D() const;
+  // Q_INVOKABLE void addGrid3D() const;
 
   /**
    * @brief Loads TF Visualization Plugin

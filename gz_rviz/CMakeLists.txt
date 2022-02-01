@@ -9,6 +9,15 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+#============================================================================
+# Find gz-cmake
+#============================================================================
+find_package(gz-cmake3 REQUIRED)
+
+#============================================================================
+# Find Tinyxml2
+gz_find_package(TINYXML2 REQUIRED PRIVATE PRETTY tinyxml2)
+
 set(CMAKE_AUTOMOC ON)
 
 # Qt packages
@@ -29,19 +38,25 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(urdf REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
 # Gazebo libraries
 find_package(gz_rviz_common REQUIRED)
 find_package(gz_rviz_plugins REQUIRED)
-find_package(gz-math7 REQUIRED)
 
 # Default to Garden
-find_package(gz-gui7 REQUIRED)
-set(GZ_GUI_VER ${gz-gui7_VERSION_MAJOR})
+find_package(gz-math7 REQUIRED)
+set(GZ_MATH_VER ${gz-math7_VERSION_MAJOR})
 
 find_package(gz-common5 REQUIRED)
 set(GZ_COMMON_VER ${gz-common5_VERSION_MAJOR})
+
+find_package(gz-rendering7 REQUIRED)
+set(GZ_RENDERING_VER ${gz-rendering7_VERSION_MAJOR})
+
+find_package(gz-gui7 REQUIRED)
+set(GZ_GUI_VER ${gz-gui7_VERSION_MAJOR})
 
 message(STATUS "Compiling against Gazebo Garden")
 
@@ -49,11 +64,13 @@ qt5_add_resources(resources_RCC include/gz/rviz/rviz.qrc)
 
 include_directories(SYSTEM
   ${GZ-COMMON_INCLUDE_DIRS}
+  ${GZ-RENDERING_INCLUDE_DIRS}
   ${GZ-GUI_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Qml_INCLUDE_DIRS}
   ${Qt5Quick_INCLUDE_DIRS}
   ${Qt5QuickControls2_INCLUDE_DIRS}
+  ${urdf_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -75,7 +92,8 @@ ament_target_dependencies(gz_rviz
   ament_index_cpp
   gz_rviz_common
   gz_rviz_plugins
-  gz-math7
+  gz-math${GZ_MATH_VER}
+  gz-common${GZ_COMMON_VER}
   gz-gui${GZ_GUI_VER}
   geometry_msgs
   nav_msgs
@@ -86,7 +104,12 @@ ament_target_dependencies(gz_rviz
   visualization_msgs
 )
 
-target_link_libraries(gz_rviz Qt5::Core Qt5::Qml Qt5::Quick Qt5::QuickControls2)
+target_link_libraries(gz_rviz
+  Qt5::Core
+  Qt5::Qml
+  Qt5::Quick
+  Qt5::QuickControls2
+)
 
 install(TARGETS gz_rviz
         DESTINATION lib/${PROJECT_NAME})
