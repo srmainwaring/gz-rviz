@@ -14,6 +14,22 @@
 
 #include "ignition/rviz/rviz.hpp"
 
+#include <ignition/rviz/plugins/AxesDisplay.hpp>
+#include <ignition/rviz/plugins/GlobalOptions.hpp>
+#include <ignition/rviz/plugins/GPSDisplay.hpp>
+#include <ignition/rviz/plugins/ImageDisplay.hpp>
+#include <ignition/rviz/plugins/LaserScanDisplay.hpp>
+#include <ignition/rviz/plugins/MarkerArrayDisplay.hpp>
+#include <ignition/rviz/plugins/MarkerDisplay.hpp>
+#include <ignition/rviz/plugins/MarkerManager.hpp>
+#include <ignition/rviz/plugins/PathDisplay.hpp>
+#include <ignition/rviz/plugins/PointStampedDisplay.hpp>
+#include <ignition/rviz/plugins/PolygonDisplay.hpp>
+#include <ignition/rviz/plugins/PoseArrayDisplay.hpp>
+#include <ignition/rviz/plugins/PoseDisplay.hpp>
+#include <ignition/rviz/plugins/RobotModelDisplay.hpp>
+#include <ignition/rviz/plugins/TFDisplay.hpp>
+
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/polygon_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>

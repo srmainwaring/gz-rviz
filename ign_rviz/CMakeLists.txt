@@ -41,6 +41,7 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(urdf REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
 # Ignition libraries
@@ -85,6 +86,9 @@ elseif("$ENV{IGNITION_VERSION}" STREQUAL "fortress")
   message(STATUS "Compiling against Ignition Fortress")
 # Default to Garden
 else()
+  find_package(ignition-rendering7 REQUIRED)
+  set(IGN_RENDERING_VER ${ignition-rendering7_VERSION_MAJOR})
+
   find_package(ignition-gui7 REQUIRED)
   set(IGN_GUI_VER ${ignition-gui7_VERSION_MAJOR})
 
@@ -101,6 +105,7 @@ qt5_add_resources(resources_RCC include/ignition/rviz/rviz.qrc)
 
 include_directories(SYSTEM
   ${IGNITION-COMMON_INCLUDE_DIRS}
+  ${IGNITION-RENDERING_INCLUDE_DIRS}
   ${IGNITION-GUI_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Qml_INCLUDE_DIRS}
@@ -114,7 +119,10 @@ link_directories(
   ${IGNITION-MATH_LIBRARY_DIRS}
 )
 
-include_directories(include)
+include_directories(
+  include
+  ${ign_rviz_plugins_INCLUDE_DIRS}
+)
 
 add_executable(ign_rviz
   src/rviz/application.cpp
@@ -135,6 +143,7 @@ ament_target_dependencies(ign_rviz
   sensor_msgs
   tf2_msgs
   tf2_ros
+  urdf
   visualization_msgs
 )
 
