@@ -143,7 +143,7 @@ void RViz::addTFDisplay() const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("TFDisplay")) {
     auto tfDisplayPlugins =
-      ignition::gui::App()->findChildren<DisplayPlugin<tf2_msgs::msg::TFMessage> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::TFDisplay *>();
     int pluginCount = tfDisplayPlugins.size() - 1;
     if (pluginCount < 0)
       return;
@@ -162,7 +162,7 @@ void RViz::addLaserScanDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("LaserScanDisplay")) {
     auto laserScanPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::LaserScan> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::LaserScanDisplay *>();
     int pluginCount = laserScanPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -181,7 +181,7 @@ void RViz::addGPSDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("GPSDisplay")) {
     auto gpsDisplay =
-      ignition::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::NavSatFix> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::GPSDisplay *>();
     int pluginCount = gpsDisplay.size() - 1;
     if (pluginCount < 0)
       return;
@@ -198,7 +198,7 @@ void RViz::addMarkerDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("MarkerDisplay")) {
     auto markerDisplay =
-      ignition::gui::App()->findChildren<DisplayPlugin<visualization_msgs::msg::Marker> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::MarkerDisplay *>();
     int pluginCount = markerDisplay.size() - 1;
     if (pluginCount < 0)
       return;
@@ -218,7 +218,7 @@ void RViz::addMarkerArrayDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("MarkerArrayDisplay")) {
     auto markerArrayDisplay =
-      ignition::gui::App()->findChildren<DisplayPlugin<visualization_msgs::msg::MarkerArray> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::MarkerArrayDisplay *>();
     int pluginCount = markerArrayDisplay.size() - 1;
     if (pluginCount < 0)
       return;
@@ -238,7 +238,7 @@ void RViz::addPointStampedDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("PointStampedDisplay")) {
     auto pointStampedPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PointStamped> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::PointStampedDisplay *>();
     int pluginCount = pointStampedPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -258,7 +258,7 @@ void RViz::addPolygonDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("PolygonDisplay")) {
     auto polygonPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PolygonStamped> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::PolygonDisplay *>();
     int pluginCount = polygonPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -278,7 +278,7 @@ void RViz::addPoseDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("PoseDisplay")) {
     auto posePlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PoseStamped> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::PoseDisplay *>();
     int pluginCount = posePlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -298,7 +298,7 @@ void RViz::addPoseArrayDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("PoseArrayDisplay")) {
     auto poseArrayPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<geometry_msgs::msg::PoseArray> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::PoseArrayDisplay *>();
     int pluginCount = poseArrayPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -318,7 +318,7 @@ void RViz::addPathDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("PathDisplay")) {
     auto pathPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<nav_msgs::msg::Path> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::PathDisplay *>();
     int pluginCount = pathPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -358,7 +358,7 @@ void RViz::addImageDisplay(const QString & _topic) const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("ImageDisplay")) {
     auto imageDisplayPlugin =
-      ignition::gui::App()->findChildren<DisplayPlugin<sensor_msgs::msg::Image> *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::ImageDisplay *>();
     int pluginCount = imageDisplayPlugin.size() - 1;
     if (pluginCount < 0)
       return;
@@ -375,7 +375,7 @@ void RViz::addAxesDisplay() const
   // Load plugin
   if (ignition::gui::App()->LoadPlugin("AxesDisplay")) {
     auto axes_plugins =
-      ignition::gui::App()->findChildren<ignition::rviz::plugins::MessageDisplayBase *>();
+      ignition::gui::App()->findChildren<ignition::rviz::plugins::AxesDisplay *>();
     int pluginCount = axes_plugins.size() - 1;
     if (pluginCount < 0)
       return;
@@ -399,7 +399,7 @@ void RViz::init_ros()
   if (ignition::gui::App()->LoadPlugin("GlobalOptions")) {
     auto globalOptionsPlugin =
       ignition::gui::App()->
-          findChild<ignition::rviz::plugins::MessageDisplayBase *>();
+          findChild<ignition::rviz::plugins::GlobalOptions *>();
 
     if (globalOptionsPlugin)
     {
