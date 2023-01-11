@@ -1,4 +1,4 @@
-name: Ignition RViz CI
+name: Gazebo RViz CI
 
 on: [push, pull_request]
 
@@ -7,12 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ignition: ['fortress']
+        gz: ['garden']
         ros: ['rolling']
     container:
       image: osrf/ros:${{ matrix.ros }}-desktop
     env:
-      IGNITION_VERSION: ${{ matrix.ignition }}
+      GZ_VERSION: ${{ matrix.gz }}
     steps:
     - uses: actions/checkout@v2
     - name: Install Dependencies
@@ -22,10 +22,10 @@ jobs:
         sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
         wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
         apt update -y
-        apt install -y libignition-common4-dev \
-                       libignition-math6-dev \
-                       libignition-rendering6-dev \
-                       libignition-gui6-dev
+        apt install -y libgz-common5-dev \
+                       libgz-math7-dev \
+                       libgz-rendering7-dev \
+                       libgz-gui7-dev
 
     - name: Setup colcon workspace
       id: configure
